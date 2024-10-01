@@ -1,0 +1,11 @@
+<ng-container *ngIf="isSomeUserConnected()">
+  <app-left-side-bar  (onToggleSideNav)="onToggleSideNav($event)"></app-left-side-bar>
+
+  <app-header [collapsed]="isSideNavCollapsed"
+              [screenWidth]="screenWidth"></app-header>
+  <app-main-shared
+    [collapsed]="isSideNavCollapsed"
+    [screenWidth]="screenWidth"
+  ></app-main-shared>
+</ng-container>
+<ng-container *ngIf="!isSomeUserConnected()"><app-login></app-login></ng-container>

@@ -1,0 +1,55 @@
+<div [ngClass]="getHeadClass()" class="head">
+  <div class="head-content">
+    <div class="head-content-left">
+      <div class="search-container">
+        <div class="normal-search">
+          <p style="color:#303030;font-size: 15px;line-height: 30px;font-weight: 600; font-family: Poppins,sans-serif" >  Bienvenue dans votre espace {{userFullName}}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="head-content-right">
+
+      <div class="head-menu">
+
+        <div class="head-menu-item">
+          <button [cdkMenuTriggerFor]="userOverLay" class="head-menu-item-btn ripple">
+            <i class="fa-solid fa-circle-user" style="color: #303030"></i>
+          </button>
+
+        </div>
+
+      </div>
+      <div class="head-menu">
+
+
+
+        <div class="head-menu-item">
+          <button (click)="logout()"   class="head-menu-item-btn ripple">
+            <i class="fa-solid fa-right-from-bracket" style=" color:red"></i>
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<ng-template #userOverLay>
+  <div class="overlay overlay-user overlay-fall" cdkMenu>
+    <ul>
+      <li>
+        <a>
+          <i class='fa-solid fa-user'></i>
+          <span >Profil</span>
+        </a>
+      </li>
+
+
+    </ul>
+  </div>
+</ng-template>

@@ -1,0 +1,59 @@
+<h1 mat-dialog-title class="dialog-title">
+  <span style="color: red" class="title-text">Modifer une équipe</span>
+  <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+    <mat-icon class="close-icon" color="warn">close</mat-icon>
+  </button>
+</h1>
+
+<div>
+  <form [formGroup]="teamForm" (submit)="onSubmit()">
+    <div class="row-cols-auto">
+      <!-- Upload image input -->
+      <div class="col input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
+        <input id="upload" type="file" (change)="onFileSelected($event)" accept="image/*" class="form-control border-0">
+        <label id="upload-label" for="upload" class="font-weight-light text-muted">Choisissez une image</label>
+        <div class="input-group-append">
+          <label for="upload" class="btn btn-light m-0 rounded-pill px-4">
+            <i class="fa fa-cloud-upload mr-2 text-muted"></i>
+            <small class="text-uppercase font-weight-bold text-muted">Choose file</small></label>
+        </div>
+      </div>
+
+      <!-- Uploaded image area -->
+      <div class="col image-area mt-4">
+        <img *ngIf="previewUrl" width="100px" id="imageResult" [src]="previewUrl" alt="Logo de la ligue" class="img-fluid rounded shadow-sm mx-auto d-block">
+      </div>
+      <!-- Uploaded image area-->
+      <div class="col image-area mt-4">
+        <img *ngIf="this.defaultImage" width="100px" id="imageResult" [src]="'data:image/png;base64,'+this.team.teamLogo" alt="Logo de la ligue" class="img-fluid rounded shadow-sm mx-auto d-block">
+      </div>
+    </div>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Nom de l'équipe</mat-label>
+      <input matInput formControlName="teamName" placeholder="Entrez le nom de l'équipe">
+      <mat-error *ngIf="teamForm.get('teamName')?.hasError('required')">
+        Le nom de l'équipe est requis
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Champ de recherche avec autocomplete pour le championnat -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Championnat</mat-label>
+      <input type="text" matInput [formControl]="teamLeagueControl" [matAutocomplete]="auto" placeholder="Rechercher un championnat">
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onLeagueSelected($event)">
+        <mat-option *ngFor="let league of filteredLeagues | async" [value]="league.leagueName">
+          {{ league.leagueName }}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="teamForm.get('teamLeague')?.hasError('required')">
+        Le championnat est requis
+      </mat-error>
+    </mat-form-field>
+
+    <div mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close>Annuler</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!teamForm.valid">Modifier</button>
+    </div>
+  </form>
+</div>

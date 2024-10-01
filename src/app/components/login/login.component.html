@@ -1,0 +1,54 @@
+<div class="login-container">
+  <div class="login-left"></div>
+  <div class="login-right">
+    <div class="login-header">
+     </div>
+    <h2>Veuillez vous connecter</h2>
+    <!-- Form -->
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <!-- Email Field -->
+      <div class="form-group">
+        <label >E-mail *</label>
+        <div class="email">
+          <mat-form-field class="example-full-width">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="userEmail" [errorStateMatcher]="matcher"
+                   placeholder="Ex. pat@example.com">
+            <mat-error *ngIf="loginForm.get('userEmail')?.hasError('email') && !loginForm.get('userEmail')?.hasError('required')">
+             Veuillez entrer une adresse mail valide
+            </mat-error>
+            <mat-error *ngIf="loginForm.get('userEmail')?.hasError('required')">
+              Email est <strong>Obligatoire!</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-group">
+        <label >Mot de passe *</label>
+        <div class="password">
+          <mat-form-field class="example-full-width">
+            <mat-label>Mot de passe</mat-label>
+            <input matInput type="password" formControlName="password" [errorStateMatcher]="matcher"
+                   placeholder="Entrez votre mot de passe">
+
+            <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+              Le mot de passe est <strong>Obligatoire!</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+
+      <!-- Submit Button -->
+      <div class="form-group">
+        <button class="btn btn-primary" type="submit">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          Se connecter
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

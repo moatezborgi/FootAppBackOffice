@@ -1,0 +1,95 @@
+<h1 mat-dialog-title class="dialog-title">
+  <span style="color: red" class="title-text">Modifier contrat: {{player.playerFirstName}} {{player.playerLastName}}</span>
+  <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+    <mat-icon class="close-icon" color="warn">close</mat-icon>
+  </button>
+</h1>
+<br>
+
+<div>
+  <mat-tab-group>
+    <mat-tab label="Nouveau contrat">
+      <form [formGroup]="playerTeamAndContract" class="example-form" (submit)="onSubmit()">
+
+
+        <!-- Ligue -->
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Ligue</mat-label>
+          <mat-select formControlName="leagueId" required >
+            <mat-option *ngFor="let league of leaguesDto" [value]="league.leagueId">
+              {{ league.leagueName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Équipe -->
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Équipe</mat-label>
+          <mat-select formControlName="teamId" required  >
+            <mat-option *ngFor="let team of filteredTeamsDto" [value]="team.teamId">
+              {{ team.teamName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Date de début de contrat -->
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Date de début de contrat</mat-label>
+          <input matInput [matDatepicker]="startPicker" formControlName="contractStartDate"  >
+          <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
+          <mat-datepicker #startPicker></mat-datepicker>
+        </mat-form-field>
+
+        <!-- Date de fin de contrat -->
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Date de fin de contrat</mat-label>
+          <input matInput [matDatepicker]="endPicker" formControlName="contractEndDate"  >
+          <mat-datepicker-toggle matIconSuffix [for]="endPicker"></mat-datepicker-toggle>
+          <mat-datepicker #endPicker></mat-datepicker>
+        </mat-form-field>
+
+        <!-- Valeur du contrat -->
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Valeur du contrat (Euro)</mat-label>
+          <input matInput formControlName="contractValue" required type="number" min="0"  >
+        </mat-form-field>
+
+        <!-- Boutons -->
+        <div class="button-container">
+
+          <button color="primary" mat-button   [disabled]="!playerTeamAndContract.valid">
+            Ajouter
+          </button>
+        </div>
+      </form>
+
+    </mat-tab>
+    <mat-tab label="Historique des contrats">
+      <table  class="table">
+        <thead class="thead-dark">
+        <tr>
+          <th scope="col">Equipe</th>
+          <th scope="col">League</th>
+          <th scope="col">Date début</th>
+          <th scope="col">Date fin</th>
+
+
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr *ngFor="let contrat of player.playerTeamContractDtos">
+          <th scope="row">{{contrat.teamDto.teamName}}</th>
+          <td>{{contrat.teamDto.league.leagueName}}</td>
+          <td>          {{contrat.contractStartDate | date:'MM/dd/yyyy'}}
+          </td>
+          <td>        {{contrat.contractEndDate | date:'MM/dd/yyyy'}}
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+    </mat-tab>
+
+  </mat-tab-group>
+</div>

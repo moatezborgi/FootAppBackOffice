@@ -1,0 +1,136 @@
+<h1 mat-dialog-title class="dialog-title">
+  <span style="color: red" class="title-text">Modifer les informations génèrales du joueur</span>
+  <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+    <mat-icon class="close-icon" color="warn">close</mat-icon>
+  </button>
+</h1>
+<div>
+  <form [formGroup]="playerForm" class="addPlayerform" (submit)="onSubmit()">
+    <!-- Upload image en haut -->
+    <div class="row-cols-auto">
+      <!-- Zone d'image téléchargée -->
+      <div class="col image-area mt-4">
+        <img *ngIf="previewUrl" width="100px" id="imageResult" [src]="previewUrl" alt="Image du joueur" class="img-fluid rounded shadow-sm d-block">
+      </div>
+      <!-- Uploaded image area-->
+      <div class="col image-area mt-4">
+        <img *ngIf="this.defaultImage" width="100px" id="imageResult" [src]="'data:image/png;base64,'+this.player.playerImage" alt="Logo du joueur" class="img-fluid rounded shadow-sm d-block">
+      </div>
+      <!-- Input de téléchargement d'image -->
+      <div class="col input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
+        <input id="upload" type="file" (change)="onFileSelected($event)" accept="image/*" class="form-control border-0">
+        <label id="upload-label" for="upload" class="font-weight-light text-muted">Choisissez une image</label>
+        <div class="input-group-append">
+          <label for="upload" class="btn btn-light m-0 rounded-pill px-4">
+            <i class="fa fa-cloud-upload mr-2 text-muted"></i>
+            <small class="text-uppercase font-weight-bold text-muted">Choose file</small>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ligne 1: Prénom et Nom -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Prénom</mat-label>
+      <input matInput formControlName="playerFirstName" required>
+      <mat-error *ngIf="playerForm.get('playerFirstName')?.hasError('required')">
+        Le prénom est requis
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Nom</mat-label>
+      <input matInput formControlName="playerLastName" required>
+      <mat-error *ngIf="playerForm.get('playerLastName')?.hasError('required')">
+        Le nom est requis
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Date de naissance -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Date de naissance</mat-label>
+      <input matInput [matDatepicker]="pickerBirth" formControlName="playerBirthDate">
+      <mat-datepicker-toggle matIconSuffix [for]="pickerBirth"></mat-datepicker-toggle>
+      <mat-datepicker #pickerBirth></mat-datepicker>
+      <mat-error *ngIf="playerForm.get('playerBirthDate')?.hasError('required')">
+        La date de naissance est requise
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Nationalité -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Nationalité</mat-label>
+      <mat-select formControlName="nationalityId" required>
+        <mat-option *ngFor="let nationality of nationalityDto" [value]="nationality.nationalityId">
+          {{ nationality.nationalityName }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="playerForm.get('nationalityId')?.hasError('required')">
+        La nationalité est requise
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Position -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Position</mat-label>
+      <mat-select formControlName="positionId" required>
+        <mat-option *ngFor="let position of positionDto" [value]="position.positionId">
+          {{ position.positionName }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="playerForm.get('positionId')?.hasError('required')">
+        La position est requise
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Pied Fort -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Pied Fort</mat-label>
+      <mat-select formControlName="playerFoot" required>
+        <mat-option *ngFor="let foot of footOptions" [value]="foot.value">
+          {{ foot.viewValue }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="playerForm.get('playerFoot')?.hasError('required')">
+        Le pied fort est requis
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Hauteur et Poids -->
+    <div class="row">
+      <mat-form-field appearance="fill" style="width: 50%;">
+        <mat-label>Hauteur (cm)</mat-label>
+        <input matInput formControlName="playerHeight" required type="number" min="0">
+        <mat-error *ngIf="playerForm.get('playerHeight')?.hasError('required')">
+          La hauteur est requise
+        </mat-error>
+        <mat-error *ngIf="playerForm.get('playerHeight')?.hasError('pattern')">
+          Entrez une hauteur valide
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" style="width: 50%;">
+        <mat-label>Poids (kg)</mat-label>
+        <input matInput formControlName="playerWeight" required type="number" min="0">
+        <mat-error *ngIf="playerForm.get('playerWeight')?.hasError('required')">
+          Le poids est requis
+        </mat-error>
+        <mat-error *ngIf="playerForm.get('playerWeight')?.hasError('pattern')">
+          Entrez un poids valide
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Bouton Suivant -->
+    <div class="button-container" style="  display: flex;
+justify-content: flex-end">
+      <button color="warn" mat-button >
+        Annuler
+      </button>
+      <button color="primary" mat-button  [disabled]="!playerForm.valid">
+        Modifier
+      </button>
+    </div>
+  </form>
+
+</div>

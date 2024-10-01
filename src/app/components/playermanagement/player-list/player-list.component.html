@@ -1,0 +1,136 @@
+<div class="card">
+  <div class="card-head">Liste des joueurs</div>
+  <div class="card-body">
+    <br>
+
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <mat-form-field style="height: 36px !important" appearance="outline">
+        <mat-label>Rechercher</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher par nom de joueurs">
+      </mat-form-field>
+    </div>
+    <br>
+
+    <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows class="mat-elevation-z8">
+
+      <!-- Colonne Image -->
+      <ng-container matColumnDef="Picture">
+        <th mat-header-cell *matHeaderCellDef style="background-color: #e8e3e3">Image</th>
+        <td mat-cell *matCellDef="let element">
+          <img width="100px" class="img-logo-team" [src]="'data:image/png;base64,' + element.playerImage" alt="{{element.playerFirstName}} {{element.playerLastName}}" />
+        </td>
+      </ng-container>
+
+      <!-- Colonne Nom & Prénom -->
+      <ng-container matColumnDef="playerFullName">
+        <th mat-header-cell *matHeaderCellDef style="background-color: #e8e3e3" mat-sort-header>Nom & Prénom</th>
+        <td mat-cell *matCellDef="let element">{{element.playerFirstName}} {{element.playerLastName}}</td>
+      </ng-container>
+
+      <!-- Colonne Nationalité -->
+      <ng-container matColumnDef="Nationality">
+        <th mat-header-cell *matHeaderCellDef style="background-color: #e8e3e3" mat-sort-header>Nationalité</th>
+        <td mat-cell *matCellDef="let element">{{element.nationalityDto.nationalityName}}</td>
+      </ng-container>
+
+      <!-- Colonne Poids & Taille -->
+      <ng-container matColumnDef="weightAndHeight">
+        <th mat-header-cell *matHeaderCellDef style="background-color: #e8e3e3" mat-sort-header>Poids & Taille</th>
+        <td mat-cell *matCellDef="let element">{{element.playerHeight}} Cm<br>{{element.playerWeight}} Kg</td>
+      </ng-container>
+
+      <!-- Colonne Position -->
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef style="background-color: #e8e3e3" mat-sort-header>Position</th>
+        <td mat-cell *matCellDef="let element">{{element.positionDto.positionName}}</td>
+      </ng-container>
+
+      <!-- Colonne Valeur marchande -->
+      <ng-container matColumnDef="playervalue">
+        <th mat-header-cell *matHeaderCellDef style="background-color: #e8e3e3" mat-sort-header>Valeur marchande</th>
+        <td mat-cell *matCellDef="let element">{{element.playerMarketValueDto.playerMarketValue}}</td>
+      </ng-container>
+
+      <!-- Colonne Age -->
+      <ng-container matColumnDef="age">
+        <th mat-header-cell *matHeaderCellDef style="background-color: #e8e3e3" mat-sort-header>Age</th>
+        <td mat-cell *matCellDef="let element">{{element.age}}</td>
+      </ng-container>
+
+      <!-- Colonne Pied -->
+      <ng-container matColumnDef="foot">
+        <th mat-header-cell *matHeaderCellDef style="background-color: #e8e3e3" mat-sort-header>Pied de jeu</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.playerFoot === 1">Pied droit</ng-container>
+          <ng-container *ngIf="element.playerFoot === 2">Pied gauche</ng-container>
+          <ng-container *ngIf="element.playerFoot === 3">Deux pieds</ng-container>
+        </td>
+      </ng-container>
+
+      <!-- Colonne Équipe et Ligue -->
+      <ng-container matColumnDef="contractandLeague">
+        <th mat-header-cell *matHeaderCellDef style="background-color: #e8e3e3" mat-sort-header>Équipe | Ligue</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.playerTeamContractDto">
+            {{element.playerTeamContractDto.teamDto.teamName}} - <br>
+            {{element.playerTeamContractDto.teamDto.league.leagueName}}
+          </ng-container>
+          <ng-container *ngIf="!element.playerTeamContractDto">Joueur libre</ng-container>
+        </td>
+      </ng-container>
+
+      <!-- Colonne Contrat actuel -->
+      <ng-container matColumnDef="contractStatus">
+        <th mat-header-cell *matHeaderCellDef style="background-color: #e8e3e3" mat-sort-header>Contrat actuel</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.playerTeamContractDto">
+            Montant contrat: {{element.playerTeamContractDto.contractValue}} <br>
+            Date fin contrat: {{element.playerTeamContractDto.contractEndDate | date:'MM/dd/yyyy'}}
+          </ng-container>
+          <ng-container *ngIf="!element.playerTeamContractDto">Joueur libre</ng-container>
+        </td>
+      </ng-container>
+
+      <!-- Colonne Action -->
+      <ng-container matColumnDef="Action">
+        <th mat-header-cell *matHeaderCellDef style="background-color: #e8e3e3">Action</th>
+        <td mat-cell *matCellDef="let element">
+          <button class="small-button"  style="background-color: green"  title="Modifier inforamtions" (click)="OpenDialogUpdatePlayerInformation(element)" mat-mini-fab >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button class="small-button"  style="background-color: green"  title="Modifier la valeur marchande" (click)="OpenDialogPlayerValue(element)" mat-mini-fab >
+            <mat-icon> attach_money</mat-icon>
+
+          </button>
+          <button class="small-button"  style="background-color: green"  title="Assigner un nouveau contrat" (click)="OpenDialogAddNewContract(element)" mat-mini-fab>
+            <mat-icon>assignment</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Rangée d'en-tête -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+      <!-- Rangée principale -->
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="element-row" [class.expanded]="expandedElement === row"></tr>
+
+      <!-- Rangée de détails -->
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']; when: isExpansionDetailRow"></tr>
+
+      <!-- Définition de la colonne de détails -->
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+          <div class="example-element-detail" *ngIf="expandedElement === element">
+            <strong>Détails supplémentaires:</strong>
+            <p>Équipe: {{element.playerTeamContractDto?.teamDto?.teamName || 'Joueur libre'}}</p>
+            <p>Montant contrat: {{element.playerTeamContractDto?.contractValue}}</p>
+            <p>Date fin contrat: {{element.playerTeamContractDto?.contractEndDate | date:'MM/dd/yyyy'}}</p>
+          </div>
+        </td>
+      </ng-container>
+
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+  </div>
+</div>

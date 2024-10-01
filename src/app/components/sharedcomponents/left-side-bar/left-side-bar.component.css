@@ -1,0 +1,169 @@
+.sidenav {
+  background: #ffffff;
+  transition: all 0.5s ease;
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  width: 5rem;
+  height: 100vh;
+}
+.sidenav .logo-container {
+  display: flex;
+  align-items: center;
+  padding: 0.938rem 0.938rem 0 0.938rem;
+  width: 100%;
+}
+.sidenav .logo-container .logo {
+  text-align: center;
+  width:100px;
+  min-width: 3rem;
+  border-radius: 0.313rem;
+  padding: 0.313rem;
+  font-size: 24px;
+  font-weight: 900;
+  cursor: pointer;
+  border: none;
+}
+.sidenav .logo-container .logo-text {
+  margin-left: 1.5rem;
+  font-size: 9px;
+  font-weight: 700;
+  color: black;
+}
+.sidenav   .btn-close-sideBar {
+  margin-left: auto;
+  cursor: pointer;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  border: none;
+  transform: translateY(-50%);
+  right: -25px;
+  position: absolute;
+  border: 1px solid transparent;
+}
+
+.sidenav   .btn-close-sideBar .fa-times {
+  color: black;
+  font-size: 24px;
+}
+.sidenav-collapsed {
+  width: 18.5625rem;
+
+}
+.sidenav-nav {
+  list-style: none;
+  padding: 0.938rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+.sidenav-nav .sidenav-nav-item {
+  width: 100%;
+  margin-bottom: 0.625rem;
+}
+.sidenav-nav .sidenav-nav-item .sidenav-nav-link {
+  display: flex;
+  align-items: center;
+  height: 3rem;
+  color: #303030;
+  text-decoration: none;
+  border-radius: 0.625rem;
+  transition: all 0.3s ease;
+}
+.sidenav-nav .sidenav-nav-item .sidenav-nav-link .sidenav-link-icon {
+  font-size: 22px;
+  width: 2rem;
+  min-width: 2rem;
+  margin: 0 0.5rem;
+  text-align: center;
+}
+.sidenav-nav .sidenav-nav-item .sidenav-nav-link .sidenav-link-text {
+  font-size: 14px;
+  font-family: Poppins;
+}
+.sidenav-nav .sidenav-nav-item .sidenav-nav-link:hover {
+  background-color: #DEF0FE;
+  color: #000;
+}
+.sidenav-nav .sidenav-nav-item .sidenav-nav-link:hover .menu-collapse-icon {
+  color: #303030;
+}
+.active {
+  background-color: #DEF0FE;
+}
+.active .menu-collapse-icon, .active .sidenav-link-icon, .active .sidenav-link-text {
+  color: #1B4883;
+  font-weight: 700;
+}
+.active-sublevel {
+  color: #1B4883 !important;
+  font-weight: bold;
+
+}
+.menu-collapse-icon {
+  width: 2rem;
+  min-width: 2rem;
+  margin: auto 0.5rem auto auto;
+  text-align: center;
+  color: #303030;
+}
+.sublevel-nav {
+  list-style: none;
+  margin-left: 10px;
+}
+.sublevel-nav .sublevel-nav-item .sublevel-nav-link {
+  display: flex;
+  align-items: center;
+  height: 3rem;
+  color: #898989;
+  text-decoration: none;
+  border-radius: 0.625rem;
+  transition: all 0.3s ease;
+}
+.sublevel-nav .sublevel-nav-item .sublevel-nav-link .sublevel-link-icon {
+  font-size: 4px;
+  width: 2rem;
+  min-width: 2rem;
+  margin: 0 0.5rem;
+  text-align: center;
+}
+.sublevel-nav .sublevel-nav-item .sublevel-nav-link .sublevel-link-text {
+  margin-left: 0.8rem;
+  font-size: 14px;
+
+}
+.sublevel-nav .sublevel-nav-item .sublevel-nav-link:hover {
+  color: #1B4883;
+}
+.scrollwrap {
+  overflow-y: auto;
+  visibility: hidden;
+  height: calc(100% - 3.65rem);
+}
+.sidenav-nav, .scrollwrap:hover, .scrollwrap:focus {
+  visibility: visible;
+}
+.scrollwrap_delayed {
+  transition: visibility 0.5s 0.2s;
+}
+.scrollwrap_delayed:hover {
+  transition: visibility 0.2s 0.2s;
+}
+.scrollwrap::-webkit-scrollbar {
+  width: 10px;
+}
+.scrollwrap::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollwrap::-webkit-scrollbar-thumb {
+  background-color: #556268;
+  border-radius: 20px;
+}
+.scrollwrap {
+  scrollbar-width: thin;
+  scrollbar-color: #556268 transparent;
+}

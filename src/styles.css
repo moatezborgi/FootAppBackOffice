@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=poppins:wght@300;400;500;700;900&display=swap');
+@import '~node_modules/@angular/cdk/overlay-prebuilt.css'; /* You can add global styles to this file, and also import other style files */
+@import "@fontsource/poppins";
+
+
+
+/* You can add global styles to this file, and also import other style files */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  position: relative;
+  font-family: "Poppins", sans-serif;
+  background: #FAFAFA;
+
+  --sb-track-color: #232E33;
+  --sb-thumb-color: #e70012;
+  --sb-size: 5px;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.5rem;
+  background-color: #FAFAFA;
+  margin: 1.25rem 0 1.25rem 0;
+  box-shadow: 0 0.25rem 0.5rem #e6edef;
+  color: #495057 ;
+}
+.card .card-head {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #edf1f7;
+  font-size: 1rem;
+  font-weight: 600;
+  color:#29366A;
+}
+.card .card-body {
+  background-color: #FAFAFA;
+  padding: 1rem 1.5rem;
+}
+
+body::-webkit-scrollbar {
+  width: var(--sb-size);
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 1px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 1px;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  body {
+    scrollbar-color: var(--sb-thumb-color)
+    var(--sb-track-color);
+  }
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Poppins, "Helvetica Neue", sans-serif; }
+
+.mat-mdc-unelevated-button.mat-unthemed {
+  margin-bottom: 10px !important;
+  color: white !important;
+  background-color: #3d768a !important;
+}
+.img-logo-team{
+  margin-top:15px;
+  margin-bottom: 15px
+}
+
+

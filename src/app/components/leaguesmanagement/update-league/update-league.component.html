@@ -1,0 +1,71 @@
+<!-- src/app/components/league-dialog/league-dialog.component.html -->
+<h1 mat-dialog-title class="dialog-title">
+  <span style="color: red" class="title-text">Ajouter un nouveau championnat</span>
+  <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+    <mat-icon class="close-icon" color="warn">close</mat-icon>
+  </button>
+</h1>
+
+<div>
+  <form [formGroup]="leagueForm" (ngSubmit)="onSubmit()">
+
+    <div class="row-cols-auto">
+      <!-- Upload image input-->
+      <div class="col input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
+        <input id="upload" type="file"  (change)="onFileSelected($event)" accept="image/*" class="form-control border-0">
+        <label id="upload-label" for="upload" class="font-weight-light text-muted">Choisissez une image</label>
+        <div class="input-group-append">
+          <label for="upload" class="btn btn-light m-0 rounded-pill px-4">
+            <i class="fa fa-cloud-upload mr-2 text-muted"></i>
+            <small class="text-uppercase font-weight-bold text-muted">Choose file</small></label>
+        </div>
+      </div>
+      <div class="col image-area mt-4">
+        <img *ngIf="previewUrl"  width="100px" id="imageResult" [src]="previewUrl" alt="Logo de la ligue" class="img-fluid rounded shadow-sm mx-auto d-block">
+      </div>
+      <!-- Uploaded image area-->
+      <div class="col image-area mt-4">
+        <img *ngIf="this.defaultImage"  width="100px" id="imageResult" [src]="'data:image/png;base64,'+this.league.leagueLogo" alt="Logo de la ligue" class="img-fluid rounded shadow-sm mx-auto d-block">
+      </div>
+    </div>
+    <!-- Champ du nom de la ligue -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Nom du championnat</mat-label>
+      <input matInput formControlName="leagueName" placeholder="Entrez le nom de la ligue">
+      <mat-error *ngIf="leagueForm.get('leagueName')?.hasError('required')">
+        Le nom du championnat est requis
+      </mat-error>
+    </mat-form-field>
+    <!-- Champ de sélection de la nationalité avec recherche -->
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Nationalité</mat-label>
+      <input type="text"
+             placeholder="Choisissez une nationalité"
+             matInput
+             [value]="selectedNationalityName"
+             (input)="onNationalityInput($event)"
+             [matAutocomplete]="auto"
+             formControlName="nationality"
+             (focus)="onFocus()">
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onNationalitySelected($event)">
+        <mat-option *ngFor="let nationality of filteredNationalities | async" [value]="nationality.nationalityName">
+          {{ nationality.nationalityName }}
+        </mat-option>
+      </mat-autocomplete>
+
+      <mat-error *ngIf="leagueForm.get('nationality')?.hasError('required')">
+        La nationalité est requise
+      </mat-error>
+    </mat-form-field>
+
+
+
+    <!-- Bouton de soumission -->
+    <div mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close>Annuler</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!leagueForm.valid">Modifier</button>
+    </div>
+
+  </form>
+</div>

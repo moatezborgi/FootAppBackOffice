@@ -1,0 +1,212 @@
+<div class="card">
+  <div class="card-head">Nouveau joueur</div>
+  <div class="card-body">
+
+    <mat-stepper #stepper [linear]="true">
+      <!-- Étape 1 : Informations générales -->
+      <mat-step state="number" label="Informations générales" [stepControl]="playerForm">
+        <form [formGroup]="playerForm" class="addPlayerform">
+          <!-- Upload image en haut -->
+          <div class="row-cols-auto">
+            <!-- Zone d'image téléchargée -->
+            <div class="col image-area mt-4">
+              <img *ngIf="previewUrl" width="100px" id="imageResult" [src]="previewUrl" alt="Image du joueur" class="img-fluid rounded shadow-sm d-block">
+            </div>
+            <!-- Input de téléchargement d'image -->
+            <div class="col input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
+              <input id="upload" type="file" (change)="onFileSelected($event)" accept="image/*" class="form-control border-0">
+              <label id="upload-label" for="upload" class="font-weight-light text-muted">Choisissez une image</label>
+              <div class="input-group-append">
+                <label for="upload" class="btn btn-light m-0 rounded-pill px-4">
+                  <i class="fa fa-cloud-upload mr-2 text-muted"></i>
+                  <small class="text-uppercase font-weight-bold text-muted">Choose file</small>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ligne 1: Prénom et Nom -->
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Prénom</mat-label>
+            <input matInput formControlName="playerFirstName" required>
+            <mat-error *ngIf="playerForm.get('playerFirstName')?.hasError('required')">
+              Le prénom est requis
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Nom</mat-label>
+            <input matInput formControlName="playerLastName" required>
+            <mat-error *ngIf="playerForm.get('playerLastName')?.hasError('required')">
+              Le nom est requis
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Date de naissance -->
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Date de naissance</mat-label>
+            <input matInput [matDatepicker]="pickerBirth" formControlName="playerBirthDate">
+            <mat-datepicker-toggle matIconSuffix [for]="pickerBirth"></mat-datepicker-toggle>
+            <mat-datepicker #pickerBirth></mat-datepicker>
+            <mat-error *ngIf="playerForm.get('playerBirthDate')?.hasError('required')">
+              La date de naissance est requise
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Market value -->
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Market value (Euro)</mat-label>
+            <input matInput formControlName="playerMarketValue" required type="number" min="0">
+            <mat-error *ngIf="playerForm.get('playerMarketValue')?.hasError('required')">
+              La market value est requise
+            </mat-error>
+            <mat-error *ngIf="playerForm.get('playerMarketValue')?.hasError('pattern')">
+              Entrez une valeur valide
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Nationalité -->
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Nationalité</mat-label>
+            <mat-select formControlName="nationalityId" required>
+              <mat-option *ngFor="let nationality of nationalityDto" [value]="nationality.nationalityId">
+                {{ nationality.nationalityName }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="playerForm.get('nationalityId')?.hasError('required')">
+              La nationalité est requise
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Position -->
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Position</mat-label>
+            <mat-select formControlName="positionId" required>
+              <mat-option *ngFor="let position of positionDto" [value]="position.positionId">
+                {{ position.positionName }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="playerForm.get('positionId')?.hasError('required')">
+              La position est requise
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Pied Fort -->
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Pied Fort</mat-label>
+            <mat-select formControlName="playerFoot" required>
+              <mat-option *ngFor="let foot of footOptions" [value]="foot.value">
+                {{ foot.viewValue }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="playerForm.get('playerFoot')?.hasError('required')">
+              Le pied fort est requis
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Hauteur et Poids -->
+          <div class="row">
+            <mat-form-field appearance="fill" style="width: 50%;">
+              <mat-label>Hauteur (cm)</mat-label>
+              <input matInput formControlName="playerHeight" required type="number" min="0">
+              <mat-error *ngIf="playerForm.get('playerHeight')?.hasError('required')">
+                La hauteur est requise
+              </mat-error>
+              <mat-error *ngIf="playerForm.get('playerHeight')?.hasError('pattern')">
+                Entrez une hauteur valide
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" style="width: 50%;">
+              <mat-label>Poids (kg)</mat-label>
+              <input matInput formControlName="playerWeight" required type="number" min="0">
+              <mat-error *ngIf="playerForm.get('playerWeight')?.hasError('required')">
+                Le poids est requis
+              </mat-error>
+              <mat-error *ngIf="playerForm.get('playerWeight')?.hasError('pattern')">
+                Entrez un poids valide
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Bouton Suivant -->
+          <div class="button-container" style="  display: flex;
+justify-content: flex-end">
+
+
+            <button color="primary" mat-button matStepperNext [disabled]="!playerForm.valid">
+              Suivant
+              <mat-icon>navigate_next</mat-icon>
+            </button>
+          </div>
+        </form>
+      </mat-step>
+
+      <!-- Étape 2 : Informations de contrat -->
+      <!-- Étape 2 : Informations de contrat -->
+      <mat-step [stepControl]="playerTeamAndContract" state="number" label="Informations de contrat">
+        <form [formGroup]="playerTeamAndContract" class="example-form">
+
+          <!-- Case à cocher pour joueur libre -->
+          <mat-checkbox formControlName="isFreePlayer"  #checkbox color="primary" (change)="onFreePlayerChange($event.checked)">
+            Joueur libre?
+          </mat-checkbox>
+
+          <!-- Ligue -->
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Ligue</mat-label>
+            <mat-select formControlName="leagueId" required [disabled]="isFreePlayer==1">
+              <mat-option *ngFor="let league of leaguesDto" [value]="league.leagueId">
+                {{ league.leagueName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- Équipe -->
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Équipe</mat-label>
+            <mat-select formControlName="teamId" required [disabled]="isFreePlayer==1">
+              <mat-option *ngFor="let team of filteredTeamsDto" [value]="team.teamId">
+                {{ team.teamName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- Date de début de contrat -->
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Date de début de contrat</mat-label>
+            <input matInput [matDatepicker]="startPicker" formControlName="contractStartDate" [disabled]="isFreePlayer==1">
+            <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
+            <mat-datepicker #startPicker></mat-datepicker>
+          </mat-form-field>
+
+          <!-- Date de fin de contrat -->
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Date de fin de contrat</mat-label>
+            <input matInput [matDatepicker]="endPicker" formControlName="contractEndDate" [disabled]="isFreePlayer==1">
+            <mat-datepicker-toggle matIconSuffix [for]="endPicker"></mat-datepicker-toggle>
+            <mat-datepicker #endPicker></mat-datepicker>
+          </mat-form-field>
+
+          <!-- Valeur du contrat -->
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Valeur du contrat (Euro)</mat-label>
+            <input matInput formControlName="contractValue" required type="number" min="0" [disabled]="isFreePlayer==1">
+          </mat-form-field>
+
+          <!-- Boutons -->
+          <div class="button-container">
+            <button color="warn" mat-button matStepperPrevious>
+              Précédent
+            </button>
+            <button color="primary" mat-button (click)="onSubmit()" [disabled]="!playerTeamAndContract.valid">
+              Ajouter
+            </button>
+          </div>
+        </form>
+      </mat-step>
+
+    </mat-stepper>
+
+  </div>
+</div>

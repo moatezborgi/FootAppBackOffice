@@ -1,0 +1,52 @@
+<h1 mat-dialog-title class="dialog-title">
+  <span style="color: red" class="title-text">Valeur marchande: {{player.playerFirstName}} {{player.playerLastName}}</span>
+  <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+    <mat-icon class="close-icon" color="warn">close</mat-icon>
+  </button>
+</h1>
+<br>
+
+<div *ngIf="player">
+  <mat-tab-group>
+    <mat-tab label="Nouveau valeur marchande">
+      <form [formGroup]="playerForm" class="addPlayerform" (submit)="OnSubmit()">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Market value (Euro)</mat-label>
+          <input matInput formControlName="playerMarketValue" required type="number" min="0">
+          <mat-error *ngIf="playerForm.get('playerMarketValue')?.hasError('required')">
+            La market value est requise
+          </mat-error>
+          <mat-error *ngIf="playerForm.get('playerMarketValue')?.hasError('pattern')">
+            Entrez une valeur valide
+          </mat-error>
+        </mat-form-field>
+        <div mat-dialog-actions align="end">
+          <button mat-button mat-dialog-close>Annuler</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!playerForm.valid">Modifier</button>
+        </div>
+      </form>
+
+
+    </mat-tab>
+    <mat-tab label="Historique">
+      <table  class="table">
+        <thead class="thead-dark">
+        <tr>
+          <th scope="col">Saison</th>
+          <th scope="col">Valeur</th>
+
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr *ngFor="let valeur of player.playerMarketValueDtos">
+          <th scope="row">{{valeur.playerMarketValueSeason}}</th>
+          <td>{{valeur.playerMarketValue}}</td>
+        </tr>
+      </tbody>
+      </table>
+
+
+    </mat-tab>
+   </mat-tab-group>
+</div>

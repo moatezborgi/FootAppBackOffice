@@ -1,0 +1,49 @@
+<div class="card">
+  <div class="card-head">Liste des championnats</div>
+  <div class="card-body">
+    <br>
+
+    <div style="display: flex; justify-content: space-between;align-items: center;">
+
+      <button (click)="OpenAddNewLeaguelDialog()"    class="btn-new"   mat-flat-button>
+        <mat-icon>add</mat-icon>
+        Nouveau championnat
+      </button>
+      <mat-form-field style="height: 36px !important" appearance="outline">
+        <mat-label>Rechercher</mat-label>
+        <input  matInput (keyup)="applyFilter($event)"
+                placeholder="Rechercher par le nom du championnat">
+      </mat-form-field>
+    </div>
+    <br>
+    <table mat-table [dataSource]="dataSource" matSort  >
+
+      <ng-container matColumnDef="Logo">
+        <th mat-header-cell *matHeaderCellDef style="  background-color: #e8e3e3" > Logo</th>
+        <td mat-cell *matCellDef="let element"> <img width="100px" class="img-logo-team"  [src]="'data:image/png;base64,' + element.leagueLogo" alt="{{element.leagueName}}" />
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="Championnat">
+        <th mat-header-cell *matHeaderCellDef style="  background-color: #e8e3e3" mat-sort-header> Championnat</th>
+        <td mat-cell *matCellDef="let element"> {{element.leagueName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Pays">
+        <th mat-header-cell *matHeaderCellDef style="  background-color: #e8e3e3" mat-sort-header> Pays</th>
+        <td mat-cell *matCellDef="let element"> {{element.leagueNationalityName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Action">
+        <th mat-header-cell *matHeaderCellDef  style="  background-color: #e8e3e3"> Action </th>
+        <td mat-cell *matCellDef="let element">
+          <button class="small-button"  style="background-color: green"   (click)="OpenDialogUpdateLeague(element)" title="Modifier cette équipe" mat-mini-fab aria-label="Example icon button with a filter list icon">
+            <mat-icon class="small-icon">mode_edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" ></mat-paginator>
+  </div>
+</div>
